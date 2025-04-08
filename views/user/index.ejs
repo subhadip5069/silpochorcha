@@ -1,0 +1,866 @@
+<%- include('partial/navbar') %>
+<style>
+.top-headline-container {
+    display: flex;
+    align-items: center;
+    background-color: #e5e5e5;
+    /* padding: 10px; */
+    /* border-radius: 5px; */
+}
+
+.top-headline-title {
+    background-color: #ff0000;
+    color: white;
+    font-weight: bold;
+    padding: 10px 15px;
+    /* border-top-left-radius: 5px; */
+    /* border-bottom-left-radius: 5px; */
+}
+
+.top-headline-content {
+    flex-grow: 1;
+    padding: 0 10px;
+}
+
+.top-headline-time {
+    color: #c8102e;
+    font-weight: bold;
+    margin-right: 5px;
+}
+</style>
+
+    <div class="hero-head">
+
+        <section class="most-read">
+            <h2><span class="icon"></span> Most Read</h2>
+            <div class="main-news">
+                <div class="video-player">
+                    <div class="card top-story-card" style="position: relative; overflow: hidden; border-radius: 10px;">
+                        <div class="card-body d-flex flex-column align-items-center text-center" style="background: rgb(255, 255, 255); padding: 15px; border-radius: 10px;">
+                            <!-- YouTube Live Embed -->
+                            <div class="video-container" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; width: 100%; border-radius: 10px;">
+                                <iframe id="youtube-video" width="100%" height="100%" 
+                                    src="https://www.youtube.com/embed/<%= videos.link.split('/').pop() %>?autoplay=1&mute=1&loop=1&playlist=<%= videos.link.split('/').pop() %>" 
+                                    frameborder="0" 
+                                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+                                    allowfullscreen 
+                                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 10px;">
+                                </iframe>
+                            </div>
+                            <span class="category">World</span>
+                            <marquee behavior="scroll" direction="left"> <b style="font-size: large;"><%= videos.title.split(" ").slice(0, 20).join(" ") %><%= videos.title.split(" ").length > 20 ? "..." : "" %></b></marquee>
+                            <p class="caption-text" id="maintopicText">
+                             <%= videos.maintopic.substring(0, 100) %><span id="dots">...</span>
+                             <span id="moreText" style="display: none;"><%= videos.maintopic %></span>
+                         </p>
+                         <button id="toggleBtn" onclick="toggleText()" style="background-color: #007bff; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer;">
+                             Read More
+                         </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="news-content">
+                   
+                 <script>
+        function toggleText() {
+            const moreText = document.getElementById("moreText");
+            const dots = document.getElementById("dots");
+            const btn = document.getElementById("toggleBtn");
+    
+            if (moreText.style.display === "none") {
+                moreText.style.display = "inline";
+                dots.style.display = "none";
+                btn.textContent = "Show Less";
+            } else {
+                moreText.style.display = "none";
+                dots.style.display = "inline";
+                btn.textContent = "Read More";
+            }
+        }
+    </script>
+                </div>
+                <!-- <div class="news-list">
+                    <div class="news-item"><span class="news-number">1</span><p>TikTok's ban date is approaching: Who will buy it?</p></div>
+                    <div class="news-item"><span class="news-number">2</span><p>South Korea's Constitutional Court upholds Yoon's impeachment</p></div>
+                    <div class="news-item"><span class="news-number">3</span><p>Trump is confident that tariffs will save trillions of dollars, despite the...</p></div>
+                    <div class="news-item"><span class="news-number">4</span><p>Car collides with ambulance carrying patients: 9 injured</p></div>
+                    <div class="news-item"><span class="news-number">5</span><p>U.S. and China discuss maritime security against 'military risks'</p></div>
+                    <div class="news-item"><span class="news-number">6</span><p>Bus carrying workers overturned in Çankırı: 23 injured</p></div>
+                    <div class="news-item"><span class="news-number">7</span><p>Killer Israel kills 3 members of the same family in Lebanon</p></div>
+                    <div class="news-item"><span class="news-number">8</span><p>Palestine: Israel's real goal is not to free prisoners, but to steal...</p></div>
+                </div> -->
+            </div>
+            <div class="text-center" style="margin-top: 20px;">
+                <h2 style="
+                  display: inline-block;
+                  padding: 6px 16px;
+                  font-size: 18px;
+                  font-weight: bold;
+                  background-color: #f0f0f0;
+                  color: #333;
+                  border: 1px solid #ccc;
+                  border-radius: 25px;
+                ">
+                  <span class="defence-news-icon">🌍</span> International News
+                </h2>
+              </div>
+              
+           
+          <div class="row">
+            
+            <% if (IN && IN.length >= 2) { %>
+              <% IN = IN.reverse(); %>
+            <div class="col">
+               
+                <div class="container mt-4">
+                  <div class="col">
+                    <div class="row align-items-center">
+                
+                      <!-- Left Card -->
+                      <div class="col-md-9">
+                        <div class="card shadow-sm" 
+                        
+                             style="background-color: #ffffff; color: #000; border: 1px solid #ddd; height: 100%; overflow: hidden;">
+                             <a href="/<%= IN[0].path %>/<%= IN[0].id %>" style="text-decoration: none; color: inherit;">
+                          
+                          <div class="row g-0 align-items-center">
+                      
+                            <!-- Left Text Section -->
+                            <div class="col-md-4 p-3">
+                              <h5 class="fw-bold">
+                                <span class="text-danger"><%= IN[0].country %></span>
+                                :<%= IN[0].title %> &rarr;
+                              </h5>
+                              <p class="mb-0" style="font-size: 14px;">
+                                <%= IN[0].description.substring(0, 150) %>...
+                                <div class="p-2" style="height: 10px;">
+                                  <span style="font-size: 10px; color: #000000;">🕒 <%= IN[0].Date || 'Unknown' %></span> |
+                                  <span style="font-size: 10px; color: #000000;">📍 <%= IN[0].location || 'Unknown' %></span>
+                                </div>
+                              </p>
+                            </div>
+                      
+                            <!-- Middle Large Image -->
+                            <div class="col-md-8">
+                              <img src="/<%= IN[0].image %>" class="img-fluid rounded-end" alt="Main News Image"
+                                   style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                      
+                          </div>
+                        </a>
+                        </div>
+                      </div>
+                      
+                
+                      <!-- Right Card -->
+                      <div class="col-md-3">
+                        <div class="card shadow-sm" 
+                        
+                             style="background-color: #400000; color: #fff; border-radius: 8px; overflow: hidden; height: 100%;">
+                          <a href="/<%= IN[1].path %>/<%= IN[1].id %>" style="text-decoration: none; color: inherit;">
+                          <img src="/<%= IN[1].image %>" alt="Main News Image" class="img-fluid"
+                               style="width: 100%; height: 100%; object-fit: contain; background-color: #000;">
+                          <div class="p-3">
+                            <h5 class="fw-bold">&larr;  <span class="text-danger"><%= IN[0].country %></span>:<%= IN[1].title %></h5>
+                            <p class="mb-0" style="font-size: 14px;">
+                              <%= IN[1].description.substring(0, 200) %>...
+                              <div class="p-2" style="height: 10px;">
+                                <span style="font-size: 10px; color: #fff;">🕒 <%= IN[1].Date || 'Unknown' %></span> |
+                                <span style="font-size: 10px; color: #fff;">📍 <%= IN[1].location || 'Unknown' %></span>
+                              </div>
+                            </p>
+                           
+                          </div>
+                          </a>
+                        </div>
+                      </div>
+                
+                    </div>
+                  </div>
+                </div>
+                
+            
+              
+          <% }  %>
+            <!-- News + Ad Grid Layout -->
+            <div style="display: flex; gap: 20px; align-items: flex-start;">
+              <!-- Sub News Grid (Scrollable) -->
+              <div class="defence-news-grid" 
+                   style="flex-grow: 1; display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); 
+                          gap: 20px; max-height: 600px; overflow-y: auto; padding-right: 10px;">
+          
+          
+          
+          <% filteredData.forEach(function(item) { %>
+            <a href="/<%= item.path %>/<%= item.id %>" style="text-decoration: none; color: inherit;">
+            <div class="defence-news-item p-2"  >
+              <img src="/<%= item.image %>" alt="News Image">
+              <span class="defence-news-category"><%= item.title %></span>
+              <p>
+                <%= item.description.split(" ").slice(0, 10).join(" ") %>...
+                
+               
+              </p>
+          
+              <!-- Footer with date and location -->
+              <div class="defence-news-footer" style="margin-top: 10px; font-size: 14px; color: #6c757d;">
+                <span><%= item.location %></span> |
+                <span><%= new Date(item.Date).toLocaleDateString('en-US') %></span>
+              </div>
+            </div>
+          </a>
+          <% }); %>
+          
+                 
+              </div>
+          </div>
+          
+            </div>
+           
+          </div>
+        </section>
+        
+        <style>
+            .most-read {
+                background: #fff;
+                padding: 20px;
+                border-radius: 8px;
+                /* max-width: 1330px; */
+                width: 100%;
+                /* margin: auto; */
+            }
+            .most-read h2 {
+                display: flex;
+                align-items: center;
+                font-size: 24px;
+                font-weight: bold;
+            }
+            .icon {
+                display: inline-block;
+                width: 10px;
+                height: 10px;
+                background: red;
+                border-radius: 2px;
+                margin-right: 10px;
+            }
+            .main-news {
+                display: flex;
+                gap: 20px;
+                margin-bottom: 20px;
+                justify-content: center;
+            }
+            .main-news img {
+                width: 71%;
+                border-radius: 8px;
+            }
+            .news-content {
+                /* flex: 1; */
+                flex-direction: column;
+                max-width: 250px;
+            }
+            .category {
+                color: red;
+                font-weight: bold;
+                text-transform: uppercase;
+                font-size: 14px;
+            }
+            /* .news-list {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            .news-item {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+            .news-number {
+                background: red;
+                color: white;
+                font-size: 16px;
+                font-weight: bold;
+                width: 25px;
+                height: 25px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border-radius: 5px;
+            } */
+            .additional-news {
+                display: flex;
+                gap: 10px;
+                margin-top: 20px;
+            }
+            .news-box {
+                flex: 1;
+                background: #fff;
+                padding: 10px;
+                border-radius: 8px;
+                text-align: center;
+            }
+            .news-box img {
+                width: 100%;
+                border-radius: 8px;
+            }
+        
+            @media (max-width: 768px) {
+                .most-read {
+                    padding: 0;
+                    margin: 15px 0;
+                }
+                .main-news {
+                    display: flex;
+                    flex-direction: column;
+                }
+                .main-news img {
+                    width: 96%;
+                    margin: auto;
+                }
+                .news-content {
+                    max-width: 100%;
+                    padding: 15px;
+                }
+                .additional-news {
+                    display: flex;
+                    flex-direction: column;
+                }
+            }
+        </style>
+        
+        <div class="live-details" style="padding: 20px;">
+            <head>
+                <link rel="stylesheet" href="/css/readinglist.css">
+            </head>
+            
+            <!-- reading-list.ejs -->
+            <h3 style="margin-top: 25px;font-size: 24px;">Latest Updates</h3>
+            <div style="max-height: 550px; overflow-y: auto; width: 320px; padding-right: 5px;">
+
+
+                <ul style="list-style: none; padding: 0; margin: 0;">
+                  <% latest.reverse().forEach(update => { %>
+                    <% if (update.title) {
+                         const words = update.title.split(" ").slice(0, 5).join(" ") + "...";
+                    %>
+                      <li style="margin-bottom: 12px;">
+                        <a href="/<%= update.path %>/<%= update._id %>" 
+                           style="display: flex; align-items: center; text-decoration: none; color: #000; background-color: #fdfdfd; border: 1px solid #ddd; border-radius: 8px; padding: 8px; width: 100%;">
+                          
+                          <!-- Image -->
+                          <img src="/<%= update.image %>" alt="<%= update.title %>" 
+                               style="width: 60px; height: 45px; object-fit: cover; border-radius: 5px; margin-right: 12px;">
+                          
+                          <!-- Title -->
+                          <span style="font-size: 14px; font-weight: 600;"><%= words %></span>
+                        </a>
+                      </li>
+                    <% } %>
+                  <% }) %>
+                </ul>
+              
+              </div>
+              
+            
+              <div class="live-details animate__animated" id="weatherDisplay" 
+     style="width: 100%; color: #333; font-family: sans-serif; display: flex; align-items: center; justify-content: center;">
+  
+  <% if (weatherData && weatherData.length) { %>
+    <% const weather = weatherData[0]; %>
+
+    <div class="weather-content"
+         style="display: flex; align-items: center; gap: 15px; width: 100%; max-width: 500px; background: #fff; padding: 10px 15px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); height: 100px; overflow: hidden;">
+
+      <div class="weather-icon" id="weatherIcon">
+        <% if (weather.condition.includes("rain")) { %>
+          <i class="fas fa-cloud-showers-heavy text-primary" style="font-size: 36px; min-width: 36px;"></i>
+        <% } else if (weather.condition.includes("clear")) { %>
+          <i class="fas fa-sun text-warning" style="font-size: 36px; min-width: 36px;"></i>
+        <% } else if (weather.condition.includes("cloud")) { %>
+          <i class="fas fa-cloud text-secondary" style="font-size: 36px; min-width: 36px;"></i>
+        <% } else { %>
+          <i class="fas fa-smog text-muted" style="font-size: 36px; min-width: 36px;"></i>
+        <% } %>
+      </div>
+
+      <div class="weather-info" style="font-size: 14px; line-height: 1.3;">
+        <strong style="display: block; font-size: 15px; margin-bottom: 3px;">
+          Weather : <%= weather.location %>
+        </strong>
+        <p id="weatherInfo" style="margin: 0; font-size: 13px; color: #666;">
+          <%= weather.temperature %>°C, <%= weather.condition %>
+        </p>
+      </div>
+
+    </div>
+  <% } %>
+              </div>
+              
+<div class="ads-container" style="flex: 1; display: flex; flex-direction: column; gap: 20px;">
+    <% ads.forEach(function(ad) { %>
+
+        <div style="width: 100%; min-height: 250px; background: #f8f9fa; border-radius: 10px; padding: 10px; text-align: center; 
+                    box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+            <p style="color: #dc3545; font-weight: bold;">🛒 Ad</p>
+            <a href="<%= ad.link %>" target="_blank" style="text-decoration: none;">
+                <% if (ad.image) { %>
+                    <img src="/<%= ad.image %>" alt="Advertisement" 
+                         style="width: 100%; height: 160px; object-fit: cover; border-radius: 8px;">
+                <% } else { %>
+                    <p>No ad available</p>
+                <% } %>
+            </a>
+        </div>
+    <% }); %>
+</div>
+</div>
+
+        
+        <script>
+            const weatherData = <%- JSON.stringify(weatherData) %>;
+            let currentIndex = 0;
+        
+            function updateWeather() {
+                const display = document.getElementById("weatherDisplay");
+                const info = document.getElementById("weatherInfo");
+                const iconContainer = document.getElementById("weatherIcon");
+        
+                if (!weatherData.length) return;
+        
+                const weather = weatherData[currentIndex];
+        
+                // Update icon
+                let iconHTML = "";
+                const condition = weather.condition.toLowerCase();
+                if (condition.includes("rain")) {
+                    iconHTML = '<i class="fas fa-cloud-showers-heavy text-primary"></i>';
+                } else if (condition.includes("clear")) {
+                    iconHTML = '<i class="fas fa-sun text-warning"></i>';
+                } else if (condition.includes("cloud")) {
+                    iconHTML = '<i class="fas fa-cloud text-secondary"></i>';
+                } else {
+                    iconHTML = '<i class="fas fa-smog text-muted"></i>';
+                }
+        
+                iconContainer.innerHTML = iconHTML;
+                info.textContent = `${weather.location}: ${weather.temperature}°C, ${weather.condition}`;
+        
+                // Animate fadeIn
+                display.classList.remove("animate__fadeIn");
+                void display.offsetWidth; // reflow
+                display.classList.add("animate__fadeIn");
+        
+                currentIndex = (currentIndex + 1) % weatherData.length;
+            }
+        
+            // Auto switch every 2 seconds
+            setInterval(updateWeather, 2000);
+        </script>
+
+       
+        </div>
+    </div>
+    <div class="text-center" style="margin-top: 20px;">
+        <h3 style="
+          display: inline-block;
+          padding: 8px 18px;
+          font-size: 16px;
+          font-weight: 600;
+          background-color: #f0f0f0;
+          color: #222;
+          border: 1px solid #ccc;
+          border-radius: 25px;
+          box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+        ">
+          <img src="https://flagcdn.com/w40/in.png" alt="India Flag" style="height: 18px; vertical-align: middle; margin-right: 8px;">
+          India News Today
+        </h3>
+      </div>
+      
+      
+      
+      
+    <div class="news-container">
+        <div class="news-grid" id="news-grid">
+          <!-- News cards will be added here dynamically -->
+        </div>
+      
+        <div style="text-align: center; margin-top: 20px;">
+          <button id="loadMoreBtn" class="btn btn-danger" style="padding: 10px 20px; font-weight: bold;">Load More</button>
+        </div>
+      </div>
+      
+      
+      <script>
+        let currentPage = 1;
+        const itemsPerPage = 6;
+      
+        async function loadNews() {
+          try {
+            const res = await fetch(`/api/national?page=${currentPage}&limit=${itemsPerPage}`);
+            const data = await res.json();
+      
+            const container = document.getElementById("news-grid");
+      
+            if (data.length === 0 && currentPage === 1) {
+              container.innerHTML = "<p>No news available.</p>";
+              document.getElementById("loadMoreBtn").style.display = "none";
+              return;
+            }
+      
+            data.forEach(news => {
+              const card = document.createElement("a");
+              card.href = news.link;
+              card.style.textDecoration = "none";
+      
+              card.innerHTML = `
+                <div class="news-card-about">
+                    <a href="/${news.path}/${news._id}" style="text-decoration: none; color: inherit;">
+                  <div class="video-thumbnail">
+                    <img src="/${news.image}" alt="News Image" loading="lazy" style="width: 100%; height: 180px; object-fit: cover; border-radius: 8px;">
+                  </div>
+                  <p class="category" style="color: #cc0000;">${news.location}</p>
+                  <h3 style="margin: 10px 0 5px 0;">${news.title}</h3>
+                  <p style="color: #444; font-size: 14px; margin-bottom: 8px;">
+                    ${news.description.length > 200 ? news.description.substring(0, 200) + '...' : news.description}
+                  </p>
+                  <div style="font-size: 13px; color: #666;">
+                    <span><strong>By:</strong> ${news.name}</span> |
+                    <span><strong>Date:</strong> ${new Date(news.Date).toLocaleDateString()}</span>
+                  </div>
+                </a>
+                </div>
+              `;
+      
+              container.appendChild(card);
+            });
+      
+            // Hide "Load More" if no more data
+            if (data.length < itemsPerPage) {
+              document.getElementById("loadMoreBtn").style.display = "none";
+            }
+      
+          } catch (error) {
+            console.error('Error loading more news:', error);
+          }
+        }
+      
+        // Initial load
+        loadNews();
+      
+        // Button click: load next page
+        document.getElementById("loadMoreBtn").addEventListener("click", () => {
+          currentPage++;
+          loadNews();
+        });
+      </script>
+      
+      
+      
+
+   
+   
+      <div class="videos-section-news-container text-align-center" >
+        <!-- Section Header -->
+        <h3 class=" text-center">
+            <span style="
+            display: inline-block;
+            padding: 6px 14px;
+            background-color: #f3f4f6;
+            color: #111827;
+            font-size: 18px;
+            font-weight: 600;
+            border: 1px solid #d1d5db;
+            border-radius: 9999px;
+          ">
+            🎭 Entertainment
+          </span>
+          
+        </h3>
+    
+        <!-- Main Video Block -->
+        <div class="videos-section-news-main">
+          <div class="videos-section-news-main-text">
+            <h3 class="videos-section-news-main-heading">
+              <%= ENT[ENT.length - 1].title %>
+            </h3>
+            <p class="videos-section-news-main-description">
+              <%= ENT[ENT.length - 1].description.substring(0, 150) %>...
+            </p>
+        
+            <!-- Date & Location -->
+            <div class="videos-news-meta" style="font-size: 14px; color: #ffffff; margin-top: 8px;">
+              <span><%= ENT[ENT.length - 1].location %></span> |
+              <span><%= new Date(ENT[ENT.length - 1].Date).toLocaleDateString('en-US') %></span>
+            </div>
+          </div>
+        
+          <div class="videos-section-news-main-image" style="position: relative;">
+            <img src="/<%= ENT[ENT.length - 1].image %>" alt="Main Video" style="width: 100%; height: auto; border-radius: 8px;">
+            
+            <!-- Play Button -->
+           
+          </div>
+        </div>
+        
+        
+    
+        <!-- Sub Videos Grid -->
+        <div class="videos-section-news-horizontal" 
+        style="display: flex; overflow-x: auto; gap: 20px; padding: 10px;">
+    
+     <% ENT.forEach(function(video) { %>
+       
+         <div class="videos-section-news-item" 
+              style="min-width: 250px; flex-shrink: 0; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; background-color: #fff;">
+              <a href="/<%= video.path %>/<%= video._id %>" style="text-decoration: none; color: inherit;">
+           <!-- Thumbnail with play button -->
+           <div class="videos-section-news-thumbnail" style="position: relative;">
+             <img src="/<%= video.image %>" alt="Video Thumbnail" 
+                  style="width: 100%; height: 260px; object-fit: cover;">
+           
+           </div>
+    
+           <!-- Category -->
+           <span class="videos-section-news-category" 
+                 style="display: inline-block; margin-top: 8px; font-weight: bold; color: #555; padding-left: 8px;">
+             <%= video.title || 'ENT' %>
+           </span>
+    
+           <!-- Short Description -->
+           <h4 class="videos-section-news-item-title" 
+               style="padding: 8px; font-size: 16px; color: #000;">
+             <%= video.description.substring(0, 50) %>...
+           </h4>
+    
+           <!-- Footer: Date and Location -->
+           <div class="video-footer" style="padding: 0 8px 10px; font-size: 13px; color: #666;">
+             <p style="margin: 0;">📍 <%= video.location || 'Unknown' %></p>
+             <p style="margin: 0;">📅 <%= new Date(video.date).toLocaleDateString() %></p>
+           </div>
+          </a>
+         </div>
+         
+     <% }); %>
+    </div>
+    
+    
+    </div>
+    <% if (middlemarquee) { %>
+        <marquee behavior="scroll" direction="left" scrollamount="5" style="color: #ffffff; font-weight: bold; background-color: #001e3a; padding: 10px; font-size: 16px; ">
+            <%=  middlemarquee.middlemarquee %>
+        </marquee>
+        <% } %>
+    <section style="padding: 50px; background-color: #f9f9f9; font-family: sans-serif;" class="container-fluid">
+        <h3 class=" text-center">
+            <span style="
+            display: inline-block;
+            padding: 6px 14px;
+            background-color: #f3f4f6;
+            color: #111827;
+            font-size: 18px;
+            font-weight: 600;
+            border: 1px solid #d1d5db;
+            border-radius: 9999px;
+          ">
+            🏥 Health
+          </span>
+          
+        </h3>
+
+        <!-- HEALTH Section -->
+        <div style="
+          display: flex;
+          flex-wrap: wrap;
+          gap: 24px;
+          margin-bottom: 40px;
+          align-items: flex-start;
+        ">
+          <!-- Main Health News -->
+          <div style="
+            flex: 2;
+            min-width: 320px;
+          ">
+            <% if (HEA.length > 0) { %>
+                <a href="/<%= HEA[0].path %>/<%= HEA[0]._id %>" style="text-decoration: none; color: inherit;">
+              <img 
+                src="/<%= HEA[0].image %>" 
+                alt="Main Health News" 
+                style="width: 100%; height: auto; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);" 
+              />
+              <h2 style="font-size: 22px; margin-top: 14px; color: #cc0000;"><%= HEA[0].title %><p><%= HEA[0].Date %> (<%= HEA[0].location %>)</p></h2>
+              <p id="health-desc" style="font-size: 15px; color: #333; line-height: 1.6;">
+                <%= HEA[0].description.substring(0, 200) %>...
+              </p>
+            </a>
+              <a id="toggle-desc" href="javascript:void(0)" style="color: #007bff; text-decoration: none; font-weight: 500;">
+                Read More
+              </a>
+
+              
+              <script>
+                const fullText = `<%= HEA[0].description.replace(/'/g, "\\'").replace(/"/g, '&quot;') %>`;
+                const shortText = `<%= HEA[0].description.substring(0, 200).replace(/'/g, "\\'").replace(/"/g, '&quot;') %>...`;
+              
+                const descEl = document.getElementById('health-desc');
+                const toggleEl = document.getElementById('toggle-desc');
+              
+                let expanded = false;
+              
+                toggleEl.addEventListener('click', () => {
+                  if (expanded) {
+                    descEl.innerHTML = shortText;
+                    toggleEl.textContent = 'Read More';
+                  } else {
+                    descEl.innerHTML = fullText;
+                    toggleEl.textContent = 'Read Less';
+                  }
+                  expanded = !expanded;
+                });
+              </script>
+              
+            <% } %>
+          </div>
+      
+          <!-- Sidebar - Scrollable Items -->
+          <div style="
+            flex: 1;
+            min-width: 280px;
+            max-height: 420px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            padding-right: 8px;
+            scrollbar-width: thin;
+            scrollbar-color: #aaa #f1f1f1;
+          ">
+            <% HEA.forEach( news=> { %>
+                <a href="/<%= news.path %>/<%= news._id %>" style="text-decoration: none; color: inherit;">
+              <div style="
+                display: flex;
+                gap: 12px;
+                padding: 10px;
+                border-radius: 10px;
+                background-color: #ffffff;
+                box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+                transition: background-color 0.3s, transform 0.3s;
+                cursor: pointer;
+              " 
+              onmouseover="this.style.backgroundColor='#f2f2f2'; this.style.transform='scale(1.01)'"
+              onmouseout="this.style.backgroundColor='#ffffff'; this.style.transform='scale(1)'">
+             
+
+                <img 
+                  src="/<%= news.image %>" 
+                  alt="Thumbnail" 
+                  style="width: 120px; height: 80px; object-fit: cover; border-radius: 6px;" 
+                />
+                <div style="flex: 1;">
+                  <h4 style="margin: 0; font-size: 15px; font-weight: 600; color: #333;">
+                    <%= news.location %>
+                  </h4>
+                  <p style="margin: 5px 0 0; font-size: 14px; color: #555; line-height: 1.4; font-weight: bold;">
+                    <%= news.title %>
+                  </p>
+                </div>
+          
+              </div>
+            </a>
+            <% }) %>
+          </div>
+        </div>
+      </section>
+      <h3 class=" text-center">
+        <span style="
+        display: inline-block;
+        padding: 6px 14px;
+        background-color: #e2e9f7;
+        color: #111827;
+        font-size: 18px;
+        font-weight: 600;
+        border: 1px solid #d1d5db;
+        border-radius: 9999px;
+      ">
+        <i class="fas fa-futbol" style="margin-right: 8px;"></i> Sports
+      </span>
+      
+    </h3>
+      
+      <section style="padding: 50px; background-color: #f9f9f9; font-family: sans-serif;" class="container-fluid">
+        
+        <div style="display: flex; flex-wrap: wrap; gap: 24px; margin-bottom: 40px; align-items: flex-start;">
+      
+          <!-- Left Side - All Sports News -->
+          <div style="flex: 1; min-width: 280px; max-height: 500px; overflow-y: auto; display: flex; flex-direction: column; gap: 14px; padding-right: 8px; scrollbar-width: thin; scrollbar-color: #aaa #f1f1f1;">
+            <% SP.forEach(news => { %>
+                <a href="/<%= news.path %>/<%= news._id %>" style="text-decoration: none; color: inherit;">
+              <div style="display: flex; gap: 12px; padding: 10px; border-radius: 10px; background-color: #ffffff; box-shadow: 0 1px 4px rgba(0,0,0,0.08); transition: background-color 0.3s, transform 0.3s; cursor: pointer;"
+                onmouseover="this.style.backgroundColor='#f2f2f2'; this.style.transform='scale(1.01)'"
+                onmouseout="this.style.backgroundColor='#ffffff'; this.style.transform='scale(1)'">
+                
+                <img src="/<%= news.image %>" alt="Thumbnail" style="width: 120px; height: 80px; object-fit: cover; border-radius: 6px;" />
+                <div style="flex: 1;">
+                  <h4 style="margin: 0; font-size: 15px; font-weight: 600; color: #333;"><%= news.location %></h4>
+                  <p style="margin: 5px 0 0; font-size: 14px; color: #555; line-height: 1.4;"><%= news.title %></p>
+                </div>
+              </div>
+            </a>
+            <% }); %>
+          </div>
+      
+          <!-- Right Side - Main Sports News -->
+          <div style="flex: 2; min-width: 320px;">
+            <% if (SP.length > 0) { %>
+                <a href="/<%= SP[0].path %>/<%= SP[0]._id %>" style="text-decoration: none; color: inherit;">
+              <img src="/<%= SP[0].image %>" alt="Main Sports News" style="width: 100%; height: auto; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);" />
+      
+              <h2 style="font-size: 22px; margin-top: 14px; color: #cc0000;"><%= SP[0].title %></h2>
+              <p style="margin: 0 0 10px;"><%= SP[0].Date || SP[0].date %> (<%= SP[0].location %>)</p>
+      
+              <p id="sports-desc" style="font-size: 15px; color: #333; line-height: 1.6;">
+                <%= SP[0].description.substring(0, 200) %>...
+              </p>
+              <a id="toggle-sports-desc" href="javascript:void(0)" style="color: #007bff; text-decoration: none; font-weight: 500;">
+                Read More
+              </a>
+            </a>
+      
+              <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                  const fullDescriptionSP = `<%= SP[0].description.replace(/'/g, "\\'").replace(/"/g, '&quot;') %>`;
+                  const shortDescriptionSP = `<%= SP[0].description.substring(0, 200).replace(/'/g, "\\'").replace(/"/g, '&quot;') %>...`;
+      
+                  const descSP = document.getElementById('sports-desc');
+                  const toggleSP = document.getElementById('toggle-sports-desc');
+                  let isExpandedSP = false;
+      
+                  toggleSP.addEventListener('click', () => {
+                    if (isExpandedSP) {
+                      descSP.innerHTML = shortDescriptionSP;
+                      toggleSP.textContent = 'Read More';
+                    } else {
+                      descSP.innerHTML = fullDescriptionSP;
+                      toggleSP.textContent = 'Read Less';
+                    }
+                    isExpandedSP = !isExpandedSP;
+                  });
+                });
+              </script>
+            <% } %>
+          </div>
+        </div>
+      </section>
+      
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+<%- include('partial/footer') %>
+
+   
+    
+
+
+    
+
+    <script src="/js/app.js"></script>
+</body>
+</html>
