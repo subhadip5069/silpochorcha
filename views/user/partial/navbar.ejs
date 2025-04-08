@@ -402,7 +402,12 @@ body {
                 <li class="nav-item"><a href="/sports" class="nav-link text-black">SPORTS</a></li>
                 <li class="nav-item"><a href="/entertaitment" class="nav-link text-black">ENTERTAINMENT</a></li>
                 <li class="nav-item"><a href="/health" class="nav-link text-black">HEALTH</a></li>
-                
+               
+                <a href="/download/<%= pdf[0]._id %>?filename=<%= encodeURIComponent(pdf[0].filename) %>" 
+                    class="btn btn-success btn-sm d-inline-flex align-items-center gap-2 shadow-sm rounded-pill px-3 py-2">
+                   <i class="fa-solid fa-download"></i> Download PDF
+                 </a>
+                 
             </ul>
         </div>
     </div>

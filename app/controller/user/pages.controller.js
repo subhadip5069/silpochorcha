@@ -14,6 +14,7 @@ const health = require("../../models/health");
 const video = require("../../models/video");
 const weather = require("../../models/weather");
 const axios = require("axios");
+const PdfModel = require("../../models/pdfmodel");
 class UIPagesController {
     index = async (req, res) => {
         const ads = await adverticeMent.find({});  // Oldest ad
@@ -56,6 +57,7 @@ class UIPagesController {
         const filteredData = IN.slice(0, -2);
         // Find the latest one among them
 
+        const pdf = await PdfModel.find({})
  
         const weatherReport = await weather.find({}, "name"); // Get only the name field
 
@@ -97,7 +99,7 @@ class UIPagesController {
             })
         );
     
-        res.render("user/index", { latestNews, middlemarquee, topmarquee, bottommarquee, ads, sideads, sponcered, interNational, Sports, National, enter, Health,latest,videos, iN, Sp, lat, nat, ent, hea, IN, SP, LAT, NAT, ENT, HEA ,weatherData ,filteredData, weatherReport });
+        res.render("user/index", { latestNews, middlemarquee, topmarquee, bottommarquee, ads, sideads, sponcered, interNational, Sports, National, enter, Health,latest,videos, iN, Sp, lat, nat, ent, hea, IN, SP, LAT, NAT, ENT, HEA ,weatherData ,filteredData, weatherReport, pdf });
     };
     
     
@@ -105,8 +107,8 @@ class UIPagesController {
         const topmarquee = await marqueeTop.findOne({})
         const bottommarquee = await marqueeBottom.findOne({})
 
-
-        res.render("user/details", { topmarquee , bottommarquee });
+        const pdf = await PdfModel.find({})
+        res.render("user/details", { topmarquee , bottommarquee , pdf });
     }
     detailNAT=async(req, res)=> {
         const { id } = req.params;
@@ -117,9 +119,9 @@ class UIPagesController {
         const topmarquee = await marqueeTop.findOne({})
         const bottommarquee = await marqueeBottom.findOne({})
 
-
+        const pdf = await PdfModel.find({})
         const outherNews = await national.find({ _id: { $ne: id } }).sort({ Date: -1 });
-        res.render("user/details", { news, outherNews, sponcered, ads, sideads ,topmarquee, bottommarquee });
+        res.render("user/details", { news, outherNews, sponcered, ads, sideads ,topmarquee, bottommarquee, pdf });
     }
     detailSPO=async(req, res)=> {
         const { id } = req.params;
@@ -130,9 +132,9 @@ class UIPagesController {
         const outherNews = await sports.find({ _id: { $ne: id } }).sort({ Date: -1 });
         const topmarquee = await marqueeTop.findOne({})
         const bottommarquee = await marqueeBottom.findOne({})
+        const pdf = await PdfModel.find({})
 
-
-        res.render("user/details", { news, outherNews, sponcered, ads, sideads, topmarquee, bottommarquee });
+        res.render("user/details", { news, outherNews, sponcered, ads, sideads, topmarquee, bottommarquee , pdf });
     }
     detailENT=async(req, res)=> {
         const { id } = req.params;
@@ -143,8 +145,8 @@ class UIPagesController {
         const outherNews = await entertainment.find({ _id: { $ne: id } }).sort({ Date: -1 });
         const topmarquee = await marqueeTop.findOne({})
         const bottommarquee = await marqueeBottom.findOne({})
-
-        res.render("user/details", { news, outherNews, sponcered, ads, sideads, topmarquee , bottommarquee });
+        const pdf = await PdfModel.find({})
+        res.render("user/details", { news, outherNews, sponcered, ads, sideads, topmarquee , bottommarquee , pdf });
     }
     detailHEA=async(req, res)=> {
         const { id } = req.params;
@@ -155,8 +157,8 @@ class UIPagesController {
         const outherNews = await health.find({ _id: { $ne: id } }).sort({ Date: -1 });
         const topmarquee = await marqueeTop.findOne({})
         const bottommarquee = await marqueeBottom.findOne({})
-
-        res.render("user/details", { news, outherNews, sponcered, ads, sideads, topmarquee , bottommarquee });
+        const pdf = await PdfModel.find({})
+        res.render("user/details", { news, outherNews, sponcered, ads, sideads, topmarquee , bottommarquee , pdf });
     }
    
     detailLAT=async(req, res)=> {
@@ -168,8 +170,8 @@ class UIPagesController {
         const outherNews = await latestnews.find({ _id: { $ne: id } }).sort({ Date: -1 });
         const topmarquee = await marqueeTop.findOne({})
         const bottommarquee = await marqueeBottom.findOne({})
-
-        res.render("user/details", { news, outherNews, sponcered, ads, sideads, topmarquee, bottommarquee });
+        const pdf = await PdfModel.find({})
+        res.render("user/details", { news, outherNews, sponcered, ads, sideads, topmarquee, bottommarquee , pdf });
     }
     detailINT=async(req, res)=> {
         const { id } = req.params;
@@ -180,8 +182,8 @@ class UIPagesController {
         const outherNews = await international.find({ _id: { $ne: id } }).sort({ Date: -1 });
         const topmarquee = await marqueeTop.findOne({})
         const bottommarquee = await marqueeBottom.findOne({})
-
-        res.render("user/details", { news, outherNews , sponcered, ads, sideads, topmarquee, bottommarquee });
+        const pdf = await PdfModel.find({})
+        res.render("user/details", { news, outherNews , sponcered, ads, sideads, topmarquee, bottommarquee , pdf });
     }
 
     National = async (req, res) => {
@@ -192,8 +194,8 @@ class UIPagesController {
         const outherNews = await national.find();
         const topmarquee = await marqueeTop.findOne({})
         const bottommarquee = await marqueeBottom.findOne({})
-
-        res.render("user/common", {  outherNews , sponcered, ads, sideads, topmarquee , bottommarquee });
+        const pdf = await PdfModel.find({})
+        res.render("user/common", {  outherNews , sponcered, ads, sideads, topmarquee , bottommarquee , pdf });
     }
     International = async (req, res) => {
         const sponcered = await sponcerd.findOne({}).sort({ createdAt: -1 });  // Oldest sponsored ad
@@ -202,8 +204,8 @@ class UIPagesController {
         const outherNews = await international.find();
         const topmarquee = await marqueeTop.findOne({})
         const bottommarquee = await marqueeBottom.findOne({})
-        
-        res.render("user/common", {  outherNews , sponcered, ads, sideads, topmarquee, bottommarquee });
+        const pdf = await PdfModel.find({})
+        res.render("user/common", {  outherNews , sponcered, ads, sideads, topmarquee, bottommarquee , pdf });
     }
     Sports = async (req, res) => {
         const sponcered = await sponcerd.findOne({}).sort({ createdAt: -1 });  // Oldest sponsored ad
@@ -212,8 +214,8 @@ class UIPagesController {
         const outherNews = await sports.find();
         const topmarquee = await marqueeTop.findOne({})
         const bottommarquee = await marqueeBottom.findOne({})
-
-        res.render("user/common", { outherNews , sponcered, ads, sideads,topmarquee , bottommarquee });
+        const pdf = await PdfModel.find({})
+        res.render("user/common", { outherNews , sponcered, ads, sideads,topmarquee , bottommarquee , pdf });
     }
     Entertainment = async (req, res) => {
         const sponcered = await sponcerd.findOne({}).sort({ createdAt: -1 });  // Oldest sponsored ad
@@ -222,8 +224,8 @@ class UIPagesController {
         const outherNews = await entertainment.find();
         const topmarquee = await marqueeTop.findOne({})
         const bottommarquee = await marqueeBottom.findOne({})
-
-        res.render("user/common", { outherNews , sponcered, ads, sideads ,topmarquee , bottommarquee });
+        const pdf = await PdfModel.find({})
+        res.render("user/common", { outherNews , sponcered, ads, sideads ,topmarquee , bottommarquee , pdf });
     }
     Health = async (req, res) => {
         const sponcered = await sponcerd.findOne({}).sort({ createdAt: -1 });  // Oldest sponsored ad
@@ -232,8 +234,8 @@ class UIPagesController {
         const outherNews = await health.find();
         const topmarquee = await marqueeTop.findOne({})
         const bottommarquee = await marqueeBottom.findOne({})
-
-        res.render("user/common", { outherNews , sponcered, ads, sideads, topmarquee, bottommarquee });
+        const pdf = await PdfModel.find({})
+        res.render("user/common", { outherNews , sponcered, ads, sideads, topmarquee, bottommarquee , pdf });
     }
    Latestnews = async (req, res) => {
         const sponcered = await sponcerd.findOne({}).sort({ createdAt: -1 });  // Oldest sponsored ad
@@ -242,8 +244,8 @@ class UIPagesController {
         const outherNews = await latestnews.find();
         const topmarquee = await marqueeTop.findOne({})
         const bottommarquee = await marqueeBottom.findOne({})
-
-        res.render("user/common", {  outherNews , sponcered, ads, sideads ,topmarquee , bottommarquee });
+        const pdf = await PdfModel.find({});
+        res.render("user/common", {  outherNews , sponcered, ads, sideads ,topmarquee , bottommarquee , pdf });
     }
 }
 
